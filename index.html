@@ -43,6 +43,11 @@
             transform: scale(1.05);
         }
 
+        .logo-right {
+            filter: invert(1) brightness(0.7);
+            width: 70px;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -186,17 +191,18 @@
             margin-bottom: 2rem;
         }
 
-      .info-item {
-    background: rgba(20, 20, 40, 0.6);
-    padding: 1rem;
-    border-radius: 12px;
-    border-left: 4px solid #3b82f6;
-    transition: all 0.3s ease; /* أضف هذا السطر لجعل الحركة ناعمة */
-}
-.info-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-}
+        .info-item {
+            background: rgba(20, 20, 40, 0.6);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
 
         .info-label {
             font-weight: 600;
@@ -275,9 +281,9 @@
             gap: 0.5rem;
         }
 
-        .exam-time {
+        .exam-time, .exam-date {
             font-weight: 600;
-            color: #3b82f6;
+            color: #e0e0e0;
             font-size: 1rem;
         }
 
@@ -369,10 +375,6 @@
                 padding: 1.5rem;
             }
         }
-        .logo-right {
-    filter: invert(1) brightness(0.7);
-      width: 150px;
-}
     </style>
 </head>
 <body>
@@ -1980,14 +1982,16 @@
             }
 ];
         // Fixed exam times
-        const examTimes = {
-            speaking: "09:30",
-            reading: "09:30", 
-            listening: "11:00",
-            writing: "11:45"
-        };
+       const examTimes = {
+    speaking: "09:30",
+    speakingDate: "23.08.2025", // تاريخ المحادثة
+    reading: "09:30", 
+    listening: "11:00",
+    writing: "11:45",
+    writtenDate: "24.08.2025" // تاريخ بقية الاختبارات
+};
 
-        // DOM elements
+       // DOM elements
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const clearBtn = document.getElementById('clearBtn');
@@ -2002,7 +2006,6 @@
                 return;
             }
 
-            // Search for exact match in participantNo or id
             const student = studentData.find(s => 
                 s.participantNo.toLowerCase() === searchTerm.toLowerCase() || 
                 s.id.toLowerCase() === searchTerm.toLowerCase()
@@ -2015,14 +2018,14 @@
             }
         }
 
-        // Display student information with new exam schedule format
+        // --- التعديل رقم 2: تبسيط دالة العرض ---
         function displayStudent(student) {
-            // Generate speaking exam HTML based on whether location exists
             const speakingHtml = student.speakingLocation 
                 ? `
                     <div class="exam-item">
                         <div class="exam-name">Speaking</div>
                         <div class="exam-details">
+                            <div class="exam-date">Date: ${examTimes.speakingDate}</div>
                             <div class="exam-time">Time: ${examTimes.speaking}</div>
                             <div class="exam-location">Location: ${student.speakingLocation}</div>
                         </div>
@@ -2041,7 +2044,6 @@
                 <div class="student-card">
                     <h3>Student Information & Exam Schedule</h3>
                     
-                    <!-- Basic Student Info -->
                     <div class="student-info">
                         <div class="info-item">
                             <div class="info-label">Participant No</div>
@@ -2057,7 +2059,6 @@
                         </div>
                     </div>
 
-                    <!-- Exam Schedule -->
                     <div class="exam-schedule">
                         <div class="schedule-title">Exam Schedule</div>
                         <div class="exam-grid">
@@ -2066,6 +2067,7 @@
                             <div class="exam-item">
                                 <div class="exam-name">Reading</div>
                                 <div class="exam-details">
+                                    <div class="exam-date">Date: ${examTimes.writtenDate}</div>
                                     <div class="exam-time">Time: ${examTimes.reading}</div>
                                     <div class="exam-location">Location: ${student.readingLocation}</div>
                                 </div>
@@ -2074,6 +2076,7 @@
                             <div class="exam-item">
                                 <div class="exam-name">Listening</div>
                                 <div class="exam-details">
+                                    <div class="exam-date">Date: ${examTimes.writtenDate}</div>
                                     <div class="exam-time">Time: ${examTimes.listening}</div>
                                     <div class="exam-location">Location: ${student.listeningLocation}</div>
                                 </div>
@@ -2082,6 +2085,7 @@
                             <div class="exam-item">
                                 <div class="exam-name">Writing</div>
                                 <div class="exam-details">
+                                    <div class="exam-date">Date: ${examTimes.writtenDate}</div>
                                     <div class="exam-time">Time: ${examTimes.writing}</div>
                                     <div class="exam-location">Location: ${student.writingLocation}</div>
                                 </div>
@@ -2112,14 +2116,12 @@
         searchBtn.addEventListener('click', searchStudent);
         clearBtn.addEventListener('click', clearSearch);
 
-        // Enter key support
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 searchStudent();
             }
         });
 
-        // Focus on input when page loads
         window.addEventListener('load', function() {
             searchInput.focus();
         });
