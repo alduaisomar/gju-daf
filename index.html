@@ -251,6 +251,16 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
         }
+        /* ---- كود الوميض الضوئي ---- */
+.glow-border {
+  animation: glowing 2s linear infinite;
+}
+
+@keyframes glowing {
+  0%   { box-shadow: 0 0 5px rgba(249, 115, 22, 0.7), 0 0 10px rgba(249, 115, 22, 0.5); }
+  50%  { box-shadow: 0 0 15px rgba(249, 115, 22, 0.9), 0 0 25px rgba(249, 115, 22, 0.7); }
+  100% { box-shadow: 0 0 5px rgba(249, 115, 22, 0.7), 0 0 10px rgba(249, 115, 22, 0.5); }
+}
 
         .exam-item.not-applicable {
             opacity: 0.6;
@@ -2022,8 +2032,8 @@
         function displayStudent(student) {
             const speakingHtml = student.speakingLocation 
                 ? `
-                    <div class="exam-item">
-                        <div class="exam-name">Speaking</div>
+                     <div class="exam-item glow-border">
+        <div class="exam-name">Speaking</div>
                         <div class="exam-details">
                             <div class="exam-date">Date: ${examTimes.speakingDate}</div>
                             <div class="exam-time">Time: ${examTimes.speaking}</div>
